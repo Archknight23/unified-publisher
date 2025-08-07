@@ -14,6 +14,12 @@
     <body>
         <div class = "container">
             <h1>Welcome to The Unified Publisher Framework</h1>
+            <h2>Bsky Login</h2>
+            <input id="bsky-username-input" placeholder = "Bluesky Username"/>
+            <input type="password" id="bsky-password-input" placeholder="NHentaiCodes"/>
+            <button id="bsky-login-button">Login to Bsky</button>
+            <p id="bsky-login-msg">You did it! So proud of you.</p>
+            <hr style="width: 80%; margin: 20px 0; border-color:#444;">
             <p>Enter your username to test backend:</p>
             <input id="name-input" placeholder="Enter your username:"/>
             <button id="greet-button">Be summoned</button>
@@ -22,19 +28,37 @@
 
         <script src="/tauri.js"></script>
         <script type="text/javascript">
-            const { invoke } = window.__TAURI__.tauri;
+           //This logs you into furry pr0n
+           const { invoke } = window.__TAURI__.tauri;
+            const bskyUsernameInput = document.getElementById('bsky-username-input');
+            const bskyPasswordInput = document.getElementById('bsky-password-input');
+            const bskyLoginButton = document.getElementById('bsky-login-button');
+            const bskyLoginMessage = document.getElementById('bsky-login-message');
+           //This says hello to you
+           const nameInput = document.getElementById('name-input');
+           const greetbutton = document.getElementById('greet-button');
+           const greetingMessage = document.getElementById('greeting-message');
 
-            const nameInput = document.getElementById('name-input');
-            const greetButton = document.getElementById('greet-button');
-            const greetingMessage = document.getElementById('greeting-message');
+           //Listing for user login
 
-            greetButton.addEventListener('click', () => {
-                invoke('greet', { name: nameInput.value })
-                .then((response) => { greetingMessage.textContent = response;})
-                .catch((error) => {
-                    greetingMessage.textContent = `Error: You fucked it up. You fucked ${error} painfully.`
-                });
+           bskyLoginButton.addEventListener('click', () => {
+
+            const username = bskyUsernameInput.value;
+            const password = bskyPasswordInput.value;
+            invoke( 'bsky_login', {username, password
+           })
+            .then((response) => {
+                bskyLoginMessage.textContent = response;
+                bskyLoginMessage.style.color = 'lightgreen';
+
+            })
+            .catch((error) => {
+                bskyLoginMessage.textContent = 'Oh no...: ${error}';
+                bskyLoginMessage.style.color = 'red';
             });
+        });
+        //Greetings
+        greetButton
         </script>
     </body>
 </html>
